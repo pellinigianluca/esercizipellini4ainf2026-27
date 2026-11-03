@@ -1,0 +1,1 @@
+# esercizipellini4ainf2026-27

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Scheda Anagrafica</title>
+</head>
+<body>
+
+    <h1>Scheda Anagrafica</h1>
+
+    <table border="1">
+        <tr>
+            <td>Nome:</td>
+            <td><input type="text" id="nome"></td>
+        </tr>
+        <tr>
+            <td>Cognome:</td>
+            <td><input type="text" id="cognome"></td>
+        </tr>
+        <tr>
+            <td>Data di Nascita:</td>
+            <td><input type="date" id="dataNascita"></td>
+        </tr>
+        <tr>
+            <td>Indirizzo:</td>
+            <td><input type="text" id="indirizzo"></td>
+        </tr>
+        <tr>
+            <td>Sesso:</td>
+            <td>
+                <input type="radio" name="sesso" value="Maschio"> Maschio
+                <input type="radio" name="sesso" value="Femmina"> Femmina
+                <input type="radio" name="sesso" value="Altro"> Altro
+            </td>
+        </tr>
+        <tr>
+            <td>Materie preferite:</td>
+            <td>
+                <input type="checkbox" name="materie" value="Informatica"> Informatica <br>
+                <input type="checkbox" name="materie" value="Matematica"> Matematica <br>
+                <input type="checkbox" name="materie" value="Inglese"> Inglese <br>
+                <input type="checkbox" name="materie" value="Storia"> Storia
+            </td>
+        </tr>
+    </table>
+
+    <br>
+    <button onclick="stampaRisultati()">Mostra Risultati</button>
+
+    <h2>Risultati</h2>
+    <div id="areaRisultati"></div>
+
+    <script>
+        function stampaRisultati() {
+            let nome = document.getElementById("nome").value;
+            let cognome = document.getElementById("cognome").value;
+            let indirizzo = document.getElementById("indirizzo").value;
+            let dataNascita = document.getElementById("dataNascita").value;
+
+            let eta = "";
+            if (dataNascita != "") {
+                let nascita = new Date(dataNascita);
+                let oggi = new Date();
+                eta = oggi.getFullYear() - nascita.getFullYear();
+            }
+
+            let sesso = "";
+            let listaRadio = document.getElementsByName("sesso");
+            for (let i = 0; i < listaRadio.length; i++) {
+                if (listaRadio[i].checked == true) {
+                    sesso = listaRadio[i].value;
+                }
+            }
+
+            let materie = "";
+            let listaCheckbox = document.getElementsByName("materie");
+            for (let j = 0; j < listaCheckbox.length; j++) {
+                if (listaCheckbox[j].checked == true) {
+                    if (materie != "") {
+                        materie = materie + ", ";
+                    }
+                    materie = materie + listaCheckbox[j].value;
+                }
+            }
+
+            let area = document.getElementById("areaRisultati");
+            area.innerHTML = "";
+
+            let tabella = document.createElement("table");
+            tabella.setAttribute("border", "1");
+
+            creaRiga(tabella, "Nome", nome);
+            creaRiga(tabella, "Cognome", cognome);
+            creaRiga(tabella, "Data di Nascita", dataNascita);
+            creaRiga(tabella, "Età", eta);
+            creaRiga(tabella, "Indirizzo", indirizzo);
+            creaRiga(tabella, "Sesso", sesso);
+            creaRiga(tabella, "Materie preferite", materie);
+
+            area.appendChild(tabella);
+        }
+
+        function creaRiga(tabella, etichetta, valore) {
+            let riga = document.createElement("tr");
+            
+            let td1 = document.createElement("td");
+            td1.appendChild(document.createTextNode(etichetta));
+            
+            let td2 = document.createElement("td");
+            td2.appendChild(document.createTextNode(valore));
+            
+            riga.appendChild(td1);
+            riga.appendChild(td2);
+            tabella.appendChild(riga);
+        }
+    </script>
+
+</body>
+</html>
